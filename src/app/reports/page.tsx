@@ -20,7 +20,7 @@ export default async function ReportsPage() {
   const reports = getPublishedReports();
 
   return (
-    <div className="max-w-[900px] mx-auto px-8 py-12">
+    <div className="max-w-[1200px] mx-auto px-8 py-12">
       <p className="text-[11px] font-bold tracking-[2px] text-accent uppercase mb-3">
         PIEVRA REPORTS
       </p>

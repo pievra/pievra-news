@@ -44,7 +44,7 @@ export default async function ReportPage({ params }: { params: Params }) {
   incrementViewCount(report.id, "report");
 
   return (
-    <div className="max-w-[760px] mx-auto px-8 py-12">
+    <div className="max-w-[1200px] mx-auto px-8 py-12">
       {/* Back link */}
       <Link
         href="/reports"
