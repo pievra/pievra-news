@@ -48,7 +48,7 @@ export function slugify(title: string): string {
 
 export function ArticleCard({ article }: ArticleCardProps) {
   const slug = slugify(article.title);
-  const href = `/news/${article.id}/${slug}`;
+  const href = `/${article.id}/${slug}`;
   const isPinned = article.is_pinned === 1;
 
   return (

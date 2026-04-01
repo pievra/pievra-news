@@ -40,7 +40,7 @@ export default async function ReportsPage() {
           {reports.map((report) => (
             <Link
               key={report.id}
-              href={`/news/reports/${report.slug}`}
+              href={`/reports/${report.slug}`}
               className="group block border border-border rounded-lg p-6 hover:border-accent-border hover:shadow transition-all"
             >
               {report.protocols.length > 0 && (

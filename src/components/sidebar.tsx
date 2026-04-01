@@ -13,11 +13,11 @@ function slugify(title: string): string {
 }
 
 const protocols = [
-  { name: "AdCP", version: "1.0", status: "Live", statusClass: "text-green-600" },
-  { name: "MCP", version: "1.x", status: "Live", statusClass: "text-green-600" },
-  { name: "UCP", version: "0.x", status: "Beta", statusClass: "text-amber-600" },
-  { name: "ARTF", version: "0.x", status: "Beta", statusClass: "text-amber-600" },
-  { name: "A2A", version: "0.x", status: "RC", statusClass: "text-purple-600" },
+  { name: "AdCP", version: "3.0-beta", status: "Beta", statusClass: "text-amber-600" },
+  { name: "MCP", version: "2025-11-25", status: "Stable", statusClass: "text-green-600" },
+  { name: "Agentic Audiences", version: "Phase 1", status: "Draft", statusClass: "text-amber-600" },
+  { name: "ARTF", version: "1.0", status: "Final", statusClass: "text-green-600" },
+  { name: "A2A", version: "0.3", status: "Stable", statusClass: "text-green-600" },
 ];
 
 export function Sidebar({ trending }: SidebarProps) {

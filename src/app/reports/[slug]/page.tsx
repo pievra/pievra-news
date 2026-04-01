@@ -47,7 +47,7 @@ export default async function ReportPage({ params }: { params: Params }) {
     <div className="max-w-[760px] mx-auto px-8 py-12">
       {/* Back link */}
       <Link
-        href="/news/reports"
+        href="/reports"
         className="inline-flex items-center gap-1.5 text-sm text-ink-muted hover:text-accent transition-colors mb-8"
       >
         <svg

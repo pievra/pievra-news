@@ -46,7 +46,7 @@ export function ReportsCarousel({ reports }: ReportsCarouselProps) {
             </span>
           </div>
           <Link
-            href="/news/reports"
+            href="/reports"
             className="text-[14px] font-semibold text-accent hover:text-accent-hover transition-colors"
           >
             View All &rarr;
@@ -58,7 +58,7 @@ export function ReportsCarousel({ reports }: ReportsCarouselProps) {
           {reports.map((report) => (
             <Link
               key={report.id}
-              href={`/news/reports/${report.slug}`}
+              href={`/reports/${report.slug}`}
               className="snap-start shrink-0 w-[340px] border border-border rounded-lg bg-surface-card hover:border-border-strong hover:shadow-sm transition-all group block"
             >
               {/* Image area */}

@@ -69,7 +69,7 @@ export default async function ArticlePage({ params }: { params: Params }) {
     <div className="max-w-[760px] mx-auto px-8 py-12">
       {/* Back link */}
       <Link
-        href="/news"
+        href="/"
         className="inline-flex items-center gap-1.5 text-sm font-semibold text-accent hover:opacity-80 transition-opacity mb-8"
       >
         <svg
@@ -154,7 +154,7 @@ export default async function ArticlePage({ params }: { params: Params }) {
               return (
                 <Link
                   key={related.id}
-                  href={`/news/${related.id}/${relatedSlug}`}
+                  href={`/${related.id}/${relatedSlug}`}
                   className="group flex flex-col gap-1 hover:opacity-80 transition-opacity"
                 >
                   <span className="text-[14px] font-bold text-ink group-hover:text-accent transition-colors leading-snug">
