@@ -1,52 +1,133 @@
 export function Nav() {
   return (
-    <nav className="sticky top-0 z-50 h-16 bg-surface border-b border-border flex items-center">
-      <div className="max-w-[1200px] mx-auto px-6 w-full flex items-center justify-between">
-        {/* Logo */}
-        <a
-          href="/"
-          className="font-display italic text-2xl text-ink leading-none hover:opacity-80 transition-opacity"
+    <nav
+      style={{
+        background: "var(--color-surface)",
+        height: 64,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        padding: "0 40px",
+        position: "sticky",
+        top: 0,
+        zIndex: 100,
+        borderBottom: "1px solid var(--color-border)",
+      }}
+    >
+      {/* Logo */}
+      <a
+        href="/"
+        style={{
+          textDecoration: "none",
+          display: "inline-block",
+        }}
+      >
+        <span
+          style={{
+            fontFamily: "'Instrument Serif', serif",
+            fontStyle: "italic",
+            fontSize: 24,
+            color: "var(--color-ink)",
+            letterSpacing: "-0.5px",
+          }}
         >
-          Pievra
+          pievra
+          <span style={{ color: "var(--color-accent)" }}>.</span>
+        </span>
+      </a>
+
+      {/* Nav links */}
+      <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
+        <a
+          href="/marketplace"
+          style={{
+            color: "var(--color-ink-muted)",
+            textDecoration: "none",
+            fontSize: 14,
+            fontWeight: 500,
+            padding: "8px 14px",
+            borderRadius: 8,
+            transition: "all .2s",
+          }}
+        >
+          Marketplace
         </a>
+        <a
+          href="/partners"
+          style={{
+            color: "var(--color-ink-muted)",
+            textDecoration: "none",
+            fontSize: 14,
+            fontWeight: 500,
+            padding: "8px 14px",
+            borderRadius: 8,
+            transition: "all .2s",
+          }}
+        >
+          Partners
+        </a>
+        <a
+          href="/news"
+          style={{
+            color: "var(--color-ink-muted)",
+            textDecoration: "none",
+            fontSize: 14,
+            fontWeight: 500,
+            padding: "8px 14px",
+            borderRadius: 8,
+            transition: "all .2s",
+          }}
+        >
+          News
+        </a>
+        <a
+          href="/careers"
+          style={{
+            color: "var(--color-ink-muted)",
+            textDecoration: "none",
+            fontSize: 14,
+            fontWeight: 500,
+            padding: "8px 14px",
+            borderRadius: 8,
+            transition: "all .2s",
+          }}
+        >
+          Careers
+        </a>
+      </div>
 
-        {/* Center nav links */}
-        <div className="flex items-center gap-6">
-          <a
-            href="/"
-            className="text-sm font-medium text-ink-muted hover:text-ink hover:bg-surface-2 px-3 py-1.5 rounded-lg transition-colors"
-          >
-            Home
-          </a>
-          <a
-            href="/news"
-            className="text-sm font-medium text-ink-muted hover:text-ink hover:bg-surface-2 px-3 py-1.5 rounded-lg transition-colors"
-          >
-            News
-          </a>
-          <a
-            href="/marketplace"
-            className="text-sm font-medium text-ink-muted hover:text-ink hover:bg-surface-2 px-3 py-1.5 rounded-lg transition-colors"
-          >
-            Marketplace
-          </a>
-        </div>
-
-        {/* Right actions */}
-        <div className="flex items-center gap-3">
-          <a
-            href="/sign-in"
-            className="text-sm font-medium text-ink-muted hover:text-ink hover:bg-surface-2 px-4 py-2 rounded-lg border border-border transition-colors"
-          >
-            Sign In
-          </a>
-          <a
-            href="/get-started"
-            className="text-sm font-semibold text-white bg-accent hover:bg-accent-hover px-4 py-2 rounded-lg transition-colors"
-          >
-            Get Started
-          </a>
-        </div>
+      {/* Auth */}
+      <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+        <a
+          href="/signin"
+          style={{
+            color: "var(--color-ink-muted)",
+            textDecoration: "none",
+            fontSize: 14,
+            fontWeight: 500,
+            padding: "8px 16px",
+            borderRadius: 8,
+            transition: "all .2s",
+          }}
+        >
+          Sign In
+        </a>
+        <a
+          href="/signup"
+          style={{
+            background: "var(--color-accent)",
+            color: "white",
+            fontWeight: 700,
+            fontSize: 14,
+            padding: "10px 20px",
+            borderRadius: 10,
+            textDecoration: "none",
+            border: "none",
+            transition: "all .2s",
+          }}
+        >
+          Sign Up Free
+        </a>
       </div>
     </nav>
   );
