@@ -76,7 +76,9 @@ export default function McpPage() {
           Connect via SSE
         </a>
         <a
-          href="#"
+          href="https://github.com/pievra/pievra-mcp"
+          target="_blank"
+          rel="noopener"
           className="inline-flex items-center gap-2 border border-border px-5 py-2.5 rounded-lg text-sm font-semibold text-ink hover:border-border-strong transition-colors"
         >
           View on GitHub
