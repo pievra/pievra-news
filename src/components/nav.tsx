@@ -1,5 +1,5 @@
-// Nav component matching the static site marketplace nav exactly
-// Uses inline styles to guarantee pixel-perfect consistency
+// Nav matching the static site (marketplace) pixel-for-pixel
+// All links use identical styles except Sign Up Free which adds orange bg
 
 const navStyle: React.CSSProperties = {
   background: "var(--color-surface)",
@@ -14,12 +14,6 @@ const navStyle: React.CSSProperties = {
   borderBottom: "1px solid var(--color-border)",
 };
 
-const navRightStyle: React.CSSProperties = {
-  display: "flex",
-  gap: 4,
-  alignItems: "center",
-};
-
 const linkStyle: React.CSSProperties = {
   color: "var(--color-ink-muted)",
   textDecoration: "none",
@@ -30,49 +24,27 @@ const linkStyle: React.CSSProperties = {
   transition: "all .2s",
 };
 
-const signInStyle: React.CSSProperties = {
-  color: "var(--color-ink-muted)",
-  textDecoration: "none",
-  fontSize: 13,
-  fontWeight: 500,
-  padding: "8px 14px",
-  borderRadius: 8,
-  transition: "all .2s",
-};
-
-const ctaStyle: React.CSSProperties = {
-  background: "var(--color-accent)",
-  color: "white",
-  fontWeight: 700,
-  fontSize: 13,
-  padding: "8px 16px",
-  borderRadius: 8,
-  textDecoration: "none",
-  transition: "all .2s",
-};
-
-const logoTextStyle: React.CSSProperties = {
-  fontFamily: "'Instrument Serif', serif",
-  fontStyle: "italic",
-  fontSize: 24,
-  color: "#18181B",
-};
-
 export function Nav() {
   return (
     <nav style={navStyle}>
       <a href="/" style={{ textDecoration: "none", display: "inline-block" }}>
-        <span style={logoTextStyle}>
+        <span style={{
+          fontFamily: "'Instrument Serif', serif",
+          fontStyle: "italic",
+          fontSize: 24,
+          color: "#18181B",
+        }}>
           pievra<span style={{ color: "#F97316" }}>.</span>
         </span>
       </a>
-      <div style={navRightStyle}>
+      <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
         <a href="/marketplace" style={linkStyle}>Marketplace</a>
         <a href="/partners" style={linkStyle}>Partners</a>
         <a href="/news" style={linkStyle}>News</a>
+        <a href="/news/analytics" style={linkStyle}>Analytics</a>
         <a href="/careers" style={linkStyle}>Careers</a>
-        <a href="/signin" style={signInStyle}>Sign In</a>
-        <a href="/signup" style={ctaStyle}>Sign Up Free</a>
+        <a href="/signin" style={linkStyle}>Sign In</a>
+        <a href="/signup" style={{ ...linkStyle, background: "#F97316", color: "white" }}>Sign Up Free</a>
       </div>
     </nav>
   );
