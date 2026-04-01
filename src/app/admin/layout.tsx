@@ -10,7 +10,7 @@ export default async function AdminLayout({
   const adminCookie = cookieStore.get("pievra_admin");
 
   if (adminCookie?.value !== process.env.ADMIN_SECRET) {
-    redirect("/news");
+    redirect("/");
   }
 
   return (

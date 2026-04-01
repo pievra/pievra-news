@@ -1,65 +1,145 @@
-import Image from "next/image";
+import { Suspense } from "react";
+import {
+  getDb,
+  runMigrations,
+  getArticles,
+  getPublishedReports,
+  getTrending,
+  getCategoryCounts,
+} from "@/lib/db";
+import type { SortOption } from "@/lib/db";
+import { ReportsCarousel } from "@/components/reports-carousel";
+import { FilterBar } from "@/components/filter-bar";
+import { ArticleCard } from "@/components/article-card";
+import { Sidebar } from "@/components/sidebar";
+import type { Metadata } from "next";
 
-export default function Home() {
+export const metadata: Metadata = {
+  title: "Protocol Intelligence - Pievra News",
+  description:
+    "In-depth analysis of every AI agent protocol shaping programmatic advertising.",
+  openGraph: {
+    title: "Pievra News - Protocol Intelligence",
+    description: "AI agent protocol analysis for programmatic advertising",
+    url: "https://pievra.com/news",
+  },
+};
+
+export const dynamic = "force-dynamic";
+
+type SearchParams = Promise<{
+  category?: string;
+  protocol?: string | string[];
+  sort?: string;
+  offset?: string;
+}>;
+
+export default async function NewsPage({
+  searchParams,
+}: {
+  searchParams: SearchParams;
+}) {
+  const params = await searchParams;
+
+  const category = params.category ?? undefined;
+  const rawProtocol = params.protocol;
+  const protocols = rawProtocol
+    ? Array.isArray(rawProtocol)
+      ? rawProtocol
+      : [rawProtocol]
+    : undefined;
+  const sort = (params.sort ?? "recent") as SortOption;
+  const offset = Number(params.offset ?? 0);
+
+  // Ensure schema is up to date on first load
+  runMigrations(getDb());
+
+  const reports = getPublishedReports();
+  const { articles, total } = getArticles({
+    category,
+    protocols,
+    sort,
+    limit: 20,
+    offset,
+  });
+  const trending = getTrending(5);
+  const categoryCounts = getCategoryCounts();
+  const totalAll = Object.values(categoryCounts).reduce((a, b) => a + b, 0);
+
+  // Build pagination URLs
+  function buildPageUrl(newOffset: number): string {
+    const p = new URLSearchParams();
+    if (category) p.set("category", category);
+    if (protocols) {
+      for (const proto of protocols) {
+        p.append("protocol", proto);
+      }
+    }
+    if (sort !== "recent") p.set("sort", sort);
+    if (newOffset > 0) p.set("offset", String(newOffset));
+    const qs = p.toString();
+    return `/news${qs ? `?${qs}` : ""}`;
+  }
+
+  const hasPrev = offset > 0;
+  const hasNext = offset + 20 < total;
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <>
+      <ReportsCarousel reports={reports} />
+
+      <Suspense fallback={<div className="h-[120px] border-b border-border" />}>
+        <FilterBar categoryCounts={categoryCounts} totalCount={totalAll} />
+      </Suspense>
+
+      <div className="max-w-[1200px] mx-auto px-8 py-9 grid grid-cols-[1fr_300px] gap-10 items-start">
+        {/* Left: article list + pagination */}
+        <div>
+          {articles.length === 0 ? (
+            <div className="py-16 text-center text-ink-muted text-[15px]">
+              No articles found matching your filters.
+            </div>
+          ) : (
+            <div className="flex flex-col gap-5">
+              {articles.map((article) => (
+                <ArticleCard key={article.id} article={article} />
+              ))}
+            </div>
+          )}
+
+          {/* Pagination */}
+          {(hasPrev || hasNext) && (
+            <div className="flex items-center justify-between mt-8 pt-6 border-t border-border">
+              {hasPrev ? (
+                <a
+                  href={buildPageUrl(offset - 20)}
+                  className="px-4 py-2 rounded-lg border border-border text-sm font-semibold text-ink hover:border-accent hover:text-accent transition-colors"
+                >
+                  &larr; Previous
+                </a>
+              ) : (
+                <span />
+              )}
+              <span className="text-sm text-ink-muted">
+                {offset + 1}&ndash;{Math.min(offset + 20, total)} of {total}
+              </span>
+              {hasNext ? (
+                <a
+                  href={buildPageUrl(offset + 20)}
+                  className="px-4 py-2 rounded-lg border border-border text-sm font-semibold text-ink hover:border-accent hover:text-accent transition-colors"
+                >
+                  Next &rarr;
+                </a>
+              ) : (
+                <span />
+              )}
+            </div>
+          )}
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+
+        {/* Right: sidebar */}
+        <Sidebar trending={trending} />
+      </div>
+    </>
   );
 }

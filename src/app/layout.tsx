@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { Nav } from "@/components/nav";
+import { Footer } from "@/components/footer";
 
 export const metadata: Metadata = {
   title: "Pievra News",
@@ -17,7 +19,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           rel="stylesheet"
         />
       </head>
-      <body className="font-sans bg-surface text-ink antialiased">{children}</body>
+      <body className="font-sans bg-surface text-ink antialiased">
+        <Nav />
+        <main>{children}</main>
+        <Footer />
+      </body>
     </html>
   );
 }

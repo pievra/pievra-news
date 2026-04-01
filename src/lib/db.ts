@@ -82,33 +82,56 @@ export function getDb(): Database.Database {
 
 // --- Migrations ---
 
+const MIGRATION_STATEMENTS = [
+  "ALTER TABLE articles ADD COLUMN category TEXT",
+  "ALTER TABLE articles ADD COLUMN protocols TEXT DEFAULT '[]'",
+  "ALTER TABLE articles ADD COLUMN image_url TEXT",
+  "ALTER TABLE articles ADD COLUMN view_count INTEGER DEFAULT 0",
+  "ALTER TABLE articles ADD COLUMN is_pinned INTEGER DEFAULT 0",
+  "ALTER TABLE articles ADD COLUMN is_hidden INTEGER DEFAULT 0",
+  "ALTER TABLE articles ADD COLUMN article_type TEXT DEFAULT 'rss'",
+  `CREATE TABLE IF NOT EXISTS reports (
+    id TEXT PRIMARY KEY, title TEXT NOT NULL, slug TEXT UNIQUE NOT NULL,
+    excerpt TEXT, body TEXT, category TEXT, protocols TEXT DEFAULT '[]',
+    author TEXT, published_at TEXT, updated_at TEXT, image_url TEXT,
+    view_count INTEGER DEFAULT 0, is_featured INTEGER DEFAULT 0, status TEXT DEFAULT 'draft'
+  )`,
+  `CREATE TABLE IF NOT EXISTS users (
+    id TEXT PRIMARY KEY, email TEXT UNIQUE NOT NULL, name TEXT,
+    avatar_url TEXT, role TEXT DEFAULT 'reader', created_at TEXT DEFAULT (datetime('now'))
+  )`,
+  `CREATE TABLE IF NOT EXISTS bookmarks (
+    id INTEGER PRIMARY KEY AUTOINCREMENT, user_id TEXT NOT NULL REFERENCES users(id),
+    article_id TEXT NOT NULL, article_type TEXT NOT NULL DEFAULT 'rss',
+    created_at TEXT DEFAULT (datetime('now')), UNIQUE(user_id, article_id)
+  )`,
+  `CREATE TABLE IF NOT EXISTS comments (
+    id INTEGER PRIMARY KEY AUTOINCREMENT, article_id TEXT NOT NULL,
+    article_type TEXT NOT NULL DEFAULT 'rss', user_id TEXT NOT NULL REFERENCES users(id),
+    body TEXT NOT NULL, created_at TEXT DEFAULT (datetime('now')), is_deleted INTEGER DEFAULT 0
+  )`,
+  `CREATE TABLE IF NOT EXISTS read_history (
+    user_id TEXT NOT NULL, article_id TEXT NOT NULL,
+    article_type TEXT NOT NULL DEFAULT 'rss', read_at TEXT DEFAULT (datetime('now')),
+    PRIMARY KEY (user_id, article_id)
+  )`,
+  "CREATE INDEX IF NOT EXISTS idx_articles_category ON articles(category)",
+  "CREATE INDEX IF NOT EXISTS idx_articles_published ON articles(published DESC)",
+  "CREATE INDEX IF NOT EXISTS idx_articles_view_count ON articles(view_count DESC)",
+  "CREATE INDEX IF NOT EXISTS idx_articles_pinned ON articles(is_pinned)",
+  "CREATE INDEX IF NOT EXISTS idx_reports_slug ON reports(slug)",
+  "CREATE INDEX IF NOT EXISTS idx_reports_status ON reports(status)",
+  "CREATE INDEX IF NOT EXISTS idx_bookmarks_user ON bookmarks(user_id)",
+  "CREATE INDEX IF NOT EXISTS idx_comments_article ON comments(article_id)",
+];
+
 export function runMigrations(db: Database.Database): void {
-  const schemaPath = path.join(__dirname, "schema.sql");
-  const sql = fs.readFileSync(schemaPath, "utf-8");
-
-  // Strip comment lines, then split on semicolons and filter empty statements
-  const stripped = sql
-    .split("\n")
-    .filter((line) => !line.trim().startsWith("--"))
-    .join("\n");
-
-  const statements = stripped
-    .split(";")
-    .map((s) => s.trim())
-    .filter((s) => s.length > 0);
-
-  for (const statement of statements) {
+  for (const stmt of MIGRATION_STATEMENTS) {
     try {
-      db.exec(statement + ";");
+      db.exec(stmt + ";");
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : String(err);
-      // Ignore "duplicate column" and "already exists" errors (idempotent)
-      if (
-        msg.includes("duplicate column name") ||
-        msg.includes("already exists")
-      ) {
-        continue;
-      }
+      if (msg.includes("duplicate column name") || msg.includes("already exists")) continue;
       throw err;
     }
   }
