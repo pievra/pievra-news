@@ -1,3 +1,13 @@
+const linkStyle = {
+  color: "var(--color-ink-muted)",
+  textDecoration: "none" as const,
+  fontSize: 14,
+  fontWeight: 500,
+  padding: "8px 14px",
+  borderRadius: 8,
+  transition: "all .2s",
+};
+
 export function Nav() {
   return (
     <nav
@@ -15,13 +25,7 @@ export function Nav() {
       }}
     >
       {/* Logo */}
-      <a
-        href="/"
-        style={{
-          textDecoration: "none",
-          display: "inline-block",
-        }}
-      >
+      <a href="/" style={{ textDecoration: "none", display: "inline-block" }}>
         <span
           style={{
             fontFamily: "'Instrument Serif', serif",
@@ -31,84 +35,21 @@ export function Nav() {
             letterSpacing: "-0.5px",
           }}
         >
-          pievra
-          <span style={{ color: "var(--color-accent)" }}>.</span>
+          pievra<span style={{ color: "var(--color-accent)" }}>.</span>
         </span>
       </a>
 
-      {/* Nav links */}
-      <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
-        <a
-          href="/marketplace"
-          style={{
-            color: "var(--color-ink-muted)",
-            textDecoration: "none",
-            fontSize: 14,
-            fontWeight: 500,
-            padding: "8px 14px",
-            borderRadius: 8,
-            transition: "all .2s",
-          }}
-        >
-          Marketplace
-        </a>
-        <a
-          href="/partners"
-          style={{
-            color: "var(--color-ink-muted)",
-            textDecoration: "none",
-            fontSize: 14,
-            fontWeight: 500,
-            padding: "8px 14px",
-            borderRadius: 8,
-            transition: "all .2s",
-          }}
-        >
-          Partners
-        </a>
-        <a
-          href="/news"
-          style={{
-            color: "var(--color-ink-muted)",
-            textDecoration: "none",
-            fontSize: 14,
-            fontWeight: 500,
-            padding: "8px 14px",
-            borderRadius: 8,
-            transition: "all .2s",
-          }}
-        >
-          News
-        </a>
-        <a
-          href="/careers"
-          style={{
-            color: "var(--color-ink-muted)",
-            textDecoration: "none",
-            fontSize: 14,
-            fontWeight: 500,
-            padding: "8px 14px",
-            borderRadius: 8,
-            transition: "all .2s",
-          }}
-        >
-          Careers
-        </a>
-      </div>
+      {/* Right side: nav links + auth together */}
+      <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+        <a href="/marketplace" style={linkStyle}>Marketplace</a>
+        <a href="/partners" style={linkStyle}>Partners</a>
+        <a href="/news" style={linkStyle}>News</a>
+        <a href="/careers" style={linkStyle}>Careers</a>
 
-      {/* Auth */}
-      <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+        {/* Auth with extra left margin */}
         <a
           href="/signin"
-          style={{
-            color: "var(--color-ink-muted)",
-            textDecoration: "none",
-            fontSize: 14,
-            fontWeight: 500,
-            padding: "8px 16px",
-            borderRadius: 8,
-            transition: "all .2s",
-          }}
+          style={{ ...linkStyle, marginLeft: 16, padding: "8px 16px" }}
         >
           Sign In
         </a>
