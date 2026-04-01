@@ -12,11 +12,11 @@ export function Nav() {
   return (
     <nav style={{
       background: "var(--color-surface)",
-      height: 52,
+      height: 64,
       display: "grid",
       gridTemplateColumns: "1fr auto 1fr",
       alignItems: "center",
-      padding: "0 32px",
+      padding: "0 40px",
       position: "sticky",
       top: 0,
       zIndex: 100,

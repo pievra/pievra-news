@@ -59,7 +59,7 @@ export function FilterBar({ categoryCounts, totalCount }: FilterBarProps) {
     "bg-surface-card text-ink-soft border-border hover:border-accent-border hover:text-ink";
 
   return (
-    <div className="sticky top-[52px] z-40 bg-surface border-b border-border py-4 px-8">
+    <div className="sticky top-16 z-40 bg-surface border-b border-border py-4 px-8">
       <div className="max-w-[1200px] mx-auto flex flex-col gap-3">
         {/* Categories */}
         <div className="flex flex-wrap gap-2 items-center">
