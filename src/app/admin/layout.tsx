@@ -38,6 +38,12 @@ export default async function AdminLayout({
         >
           Reports
         </a>
+        <a
+          href="/news/admin/deployments"
+          className="text-sm font-medium hover:text-accent transition-colors"
+        >
+          Deployments
+        </a>
         <div className="ml-auto">
           <a
             href="/news"
