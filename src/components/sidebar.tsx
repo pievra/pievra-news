@@ -22,7 +22,7 @@ const protocols = [
 
 export function Sidebar({ trending }: SidebarProps) {
   return (
-    <aside className="sticky top-[180px] space-y-5">
+    <aside className="sticky top-[170px] space-y-5">
       {/* Protocol Status Card */}
       <div className="border border-border rounded-lg overflow-hidden">
         <div className="bg-surface-2 border-b border-border px-4 py-3">
