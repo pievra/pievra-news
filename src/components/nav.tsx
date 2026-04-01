@@ -13,28 +13,30 @@ export function Nav() {
     <nav style={{
       background: "var(--color-surface)",
       height: 52,
-      display: "flex",
+      display: "grid",
+      gridTemplateColumns: "1fr auto 1fr",
       alignItems: "center",
-      justifyContent: "space-between",
       padding: "0 32px",
       position: "sticky",
       top: 0,
       zIndex: 100,
       borderBottom: "1px solid var(--color-border)",
     }}>
-      {/* Logo - left */}
-      <a href="/" style={{ textDecoration: "none", display: "inline-block" }}>
-        <span style={{
-          fontFamily: "'Instrument Serif', serif",
-          fontStyle: "italic",
-          fontSize: 24,
-          color: "#18181B",
-        }}>
-          pievra<span style={{ color: "#F97316" }}>.</span>
-        </span>
-      </a>
+      {/* Logo - left aligned */}
+      <div style={{ justifySelf: "start" }}>
+        <a href="/" style={{ textDecoration: "none", display: "inline-block" }}>
+          <span style={{
+            fontFamily: "'Instrument Serif', serif",
+            fontStyle: "italic",
+            fontSize: 24,
+            color: "#18181B",
+          }}>
+            pievra<span style={{ color: "#F97316" }}>.</span>
+          </span>
+        </a>
+      </div>
 
-      {/* Nav links - center */}
+      {/* Nav links - true center */}
       <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
         <a href="/marketplace" style={linkStyle}>Marketplace</a>
         <a href="/partners" style={linkStyle}>Partners</a>
@@ -43,8 +45,8 @@ export function Nav() {
         <a href="/careers" style={linkStyle}>Careers</a>
       </div>
 
-      {/* Auth - right */}
-      <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
+      {/* Auth - right aligned */}
+      <div style={{ display: "flex", gap: 4, alignItems: "center", justifySelf: "end" }}>
         <a href="/signin" style={linkStyle}>Sign In</a>
         <a href="/signup" style={{ ...linkStyle, background: "#F97316", color: "white" }}>Sign Up Free</a>
       </div>
